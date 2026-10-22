@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#ffb5c5">
+<title>Sonic Arcade — Welcome Back!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--pink:#ffb5c5;--night:#171626;--purple:#29243f;--blue:#168dff;--cyan:#6be9ff;--yellow:#fff05a;--white:#fff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--night);color:white;font-family:Nunito,system-ui,sans-serif;overflow-x:hidden}button,input{font:inherit}button{cursor:pointer}
+.pixel{font-family:"Press Start 2P",monospace;letter-spacing:1px}
+.top-banner{height:78px;background:var(--pink);color:#100d19;display:flex;align-items:center;justify-content:center;gap:22px;padding:10px 16px;position:relative;z-index:10}
+.welcome{font-size:clamp(9px,1.1vw,14px);line-height:1.8;text-align:center}
+.mood{height:42px;min-width:82px;border:1px solid #302332;border-radius:5px;background:transparent;font-size:20px;transition:transform .2s,background .2s}.mood:hover{transform:translateY(-3px);background:#ffd4df}
+.navbar{height:61px;background:var(--pink);color:#1d1924;display:flex;align-items:center;justify-content:space-between;padding:0 26px 12px;position:relative;z-index:10;gap:20px}
+.brand{display:flex;align-items:center;gap:15px;font-size:clamp(13px,1.5vw,20px);letter-spacing:2px;white-space:nowrap}.brand-icon{font-size:31px;filter:drop-shadow(2px 3px 0 #1d8bff);animation:bob 2.2s ease-in-out infinite}
+.nav-label{font-size:10px;white-space:nowrap}.navlinks{display:flex;gap:8px;align-items:center}.navlinks a{color:#1d1924;text-decoration:none;font:9px "Press Start 2P",monospace;padding:10px 12px;border-radius:6px;transition:background .2s,transform .2s}.navlinks a:hover{background:#ffdce4;transform:translateY(-2px)}
+main{min-height:calc(100vh - 139px);height:max(680px,calc(100vh - 139px));position:relative;overflow:hidden;isolation:isolate;background:radial-gradient(ellipse at 78% 76%,#50416b 0 13%,transparent 13.5%),radial-gradient(ellipse at 14% 20%,#302b4b 0 14%,transparent 14.5%),linear-gradient(135deg,#1e1b31,#29243e 62%,#191727)}
+main:before{content:"";position:absolute;inset:0;z-index:-2;opacity:.38;background-image:linear-gradient(45deg,#080817 25%,transparent 25%,transparent 75%,#080817 75%),linear-gradient(45deg,#080817 25%,transparent 25%,transparent 75%,#080817 75%);background-position:0 0,7px 7px;background-size:14px 14px;mask-image:radial-gradient(ellipse at 54% 58%,black 0 38%,transparent 74%)}
+main:after{content:"";position:absolute;z-index:-1;left:-8%;right:-8%;bottom:-110px;height:250px;background:linear-gradient(180deg,#44365f,#312743);border-radius:48% 52% 0 0;box-shadow:0 -20px 0 #51406b,0 -42px 0 #28243e}
+.starfield{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}.star{position:absolute;line-height:1;user-select:none;animation:drift var(--duration,7s) ease-in-out infinite alternate,twinkle var(--twinkle,2s) ease-in-out infinite}.star svg{display:block;width:var(--size,35px);height:var(--size,35px);filter:drop-shadow(0 0 5px currentColor)}
+.speedline{position:absolute;height:4px;width:150px;background:linear-gradient(90deg,transparent,#6be9ff,transparent);opacity:.65;transform:rotate(-18deg);animation:dash 2.4s linear infinite}
+.hero-title{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);z-index:3;width:min(70%,760px);text-align:center}
+.hero-title h1{font-family:"Press Start 2P",monospace;font-size:clamp(23px,5vw,61px);line-height:1.5;letter-spacing:2px;margin:0;color:#fff;text-shadow:4px 5px 0 #1b182b,0 0 16px #fff8;overflow-wrap:anywhere}
+.hero-title h1 .sonic-word{color:#63dfff;text-shadow:3px 3px 0 #1b182b,0 0 12px #168dff}
+.hero-title p{font-size:clamp(12px,1.5vw,17px);margin:14px 0 0;color:#d8d5e8}
+.search-wrap{position:absolute;left:50%;top:66%;transform:translate(-50%,-50%);width:min(690px,76%);z-index:5}
+.search-form{height:68px;display:flex;align-items:center;background:#28282dcc;border:2px solid #77727f;border-radius:40px;padding:5px 6px 5px 27px;box-shadow:0 0 0 3px #ffffff12,0 7px 24px #0007;backdrop-filter:blur(8px);transition:border-color .2s,box-shadow .2s}
+.search-form:focus-within{border-color:#fff;box-shadow:0 0 18px #ffffff55}.search-form input{flex:1;min-width:0;background:transparent;color:white;border:0;outline:0;font-size:clamp(13px,1.4vw,20px)}.search-form input::placeholder{color:#aaa8b3}
+.search-button{width:56px;height:56px;flex:0 0 56px;border:0;border-radius:50%;background:#fff;color:#090811;font-size:27px;box-shadow:0 2px 10px #0005;transition:transform .2s}.search-button:hover{transform:scale(1.06) rotate(-8deg)}
+.clock-card{position:absolute;right:22px;top:22px;z-index:5;min-width:205px;background:#171720d9;border:2px solid #8a8592;border-radius:13px;padding:15px 18px;box-shadow:0 0 18px #ffffff26;text-align:center;backdrop-filter:blur(6px)}
+.clock-time{font-family:"Press Start 2P",monospace;font-size:clamp(12px,1.25vw,18px);letter-spacing:1px}.clock-date{margin-top:12px;font-family:"Press Start 2P",monospace;font-size:8px;line-height:1.8;color:#d8d5e8}
+.status-pill{position:absolute;left:18px;top:25px;width:112px;height:54px;border-radius:40px;border:4px solid #77717f;background:#2b2939;box-shadow:0 0 0 3px #ffffff12;z-index:5;padding:5px}.status-pill:before{content:"";display:block;width:64px;height:100%;border-radius:30px;background:linear-gradient(90deg,#00dfa0,#00c78e);animation:charge 3s ease-in-out infinite alternate}
+.sonic-scene{position:absolute;right:5%;bottom:-3px;width:clamp(260px,36vw,510px);height:clamp(330px,44vw,500px);z-index:2;animation:sonic-float 3.7s ease-in-out infinite;filter:drop-shadow(0 12px 0 #14132255);pointer-events:none}
+.sonic-body{position:absolute;right:14%;top:23%;width:54%;height:53%;border-radius:48% 48% 44% 44%;background:linear-gradient(145deg,#28baff,#0873dc 76%);border:5px solid #143a86;box-shadow:inset -15px -8px 0 #0757b3,inset 9px 7px 0 #69d9ff}
+.sonic-spike{position:absolute;width:0;height:0;border-top:78px solid transparent;border-bottom:16px solid transparent;border-right:108px solid #168dff;filter:drop-shadow(3px 4px 0 #143a86);transform:rotate(-12deg);z-index:0}
+.spike1{right:48%;top:23%}.spike2{right:57%;top:34%;transform:rotate(8deg) scale(.8)}.spike3{right:48%;top:45%;transform:rotate(28deg) scale(.68)}
+.sonic-ear{position:absolute;top:17%;right:48%;width:19%;height:24%;background:#168dff;clip-path:polygon(0 100%,28% 0,100% 100%);border:2px solid #143a86;z-index:1}.sonic-ear:after{content:"";position:absolute;inset:32% 26% 10%;background:#ffb5c5;clip-path:polygon(0 100%,38% 0,100% 100%)}
+.sonic-face{position:absolute;top:17%;right:4%;width:56%;height:41%;background:#ffd6a6;border:4px solid #143a86;border-radius:50% 50% 43% 47%;z-index:2;transform:rotate(-4deg)}
+.sonic-face:after{content:"";position:absolute;right:-7%;top:38%;width:50%;height:38%;background:#ffd6a6;border-radius:50%;border-right:4px solid #143a86}
+.sonic-eye{position:absolute;z-index:4;top:25%;right:31%;width:13%;height:25%;background:white;border:3px solid #143a86;border-radius:45% 45% 35% 35%;transform:rotate(-8deg)}.sonic-eye:after{content:"";position:absolute;bottom:0;left:24%;width:46%;height:52%;background:#168dff;border-radius:50% 50% 20% 20%;border-bottom:3px solid #143a86}
+.sonic-nose{position:absolute;z-index:5;right:7%;top:45%;width:11%;height:9%;background:#172033;border-radius:50%}
+.sonic-smile{position:absolute;z-index:5;right:10%;top:60%;width:28%;height:12%;border-bottom:4px solid #8d4d50;border-radius:0 0 70% 60%;transform:rotate(-7deg)}
+.sonic-glove{position:absolute;z-index:5;left:8%;top:57%;width:24%;height:18%;background:#fff;border:4px solid #d3d6e8;border-radius:40%;transform:rotate(28deg);box-shadow:0 5px 0 #a5aac5}
+.sonic-shoe{position:absolute;z-index:5;bottom:2%;right:3%;width:42%;height:19%;background:#ef263c;border:4px solid #9d1732;border-radius:40% 50% 22% 25%;transform:rotate(-8deg);box-shadow:inset 0 -8px #c81732}.sonic-shoe:after{content:"";position:absolute;left:18%;bottom:10%;width:65%;height:25%;background:white;border-radius:10px}
+.ring{position:absolute;border:7px solid #ffdf32;border-radius:50%;width:48px;height:48px;box-shadow:0 0 10px #ffdf3266;animation:ring-spin 3s linear infinite}
+.ring.r1{left:17%;top:39%}.ring.r2{right:31%;top:69%;width:35px;height:35px;animation-delay:-1s}.ring.r3{left:44%;top:19%;width:28px;height:28px;animation-delay:-2s}
+.bottom-info{position:absolute;left:24px;bottom:18px;z-index:5;color:#c7c3d7;font-size:12px}
+.side-arrow{position:absolute;left:0;top:50%;z-index:6;transform:translateY(-50%);border:1px solid #676171;border-left:0;border-radius:0 8px 8px 0;background:#090910d9;color:#fff;font-size:29px;width:46px;height:70px;transition:width .2s}.side-arrow:hover{width:55px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);opacity:0;z-index:30;background:#fff;color:#191626;border-radius:12px;padding:12px 18px;box-shadow:0 8px 28px #0006;transition:opacity .25s,transform .25s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
+footer{background:#171626;color:#c7c3d7;text-align:center;padding:18px;font-size:12px}
+@keyframes drift{from{transform:translate3d(0,0,0) rotate(-8deg)}to{transform:translate3d(12px,-28px,0) rotate(12deg)}}@keyframes twinkle{0%,100%{opacity:.55}50%{opacity:1}}@keyframes dash{0%{transform:translateX(-240px) rotate(-18deg);opacity:0}25%{opacity:.8}100%{transform:translateX(700px) rotate(-18deg);opacity:0}}@keyframes sonic-float{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-13px) rotate(1deg)}}@keyframes ring-spin{0%{transform:rotateY(0) rotate(0)}100%{transform:rotateY(360deg) rotate(360deg)}}@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}@keyframes charge{from{width:44%}to{width:82%}}
+@media(max-width:760px){.top-banner{height:65px}.navbar{height:auto;min-height:65px;padding:0 14px 10px;flex-wrap:wrap}.navlinks{order:3;width:100%;justify-content:center}.navlinks a{font-size:7px;padding:8px 7px}.nav-label{display:none}main{height:calc(100svh - 130px);min-height:620px}.clock-card{top:14px;right:12px;min-width:150px;padding:10px}.clock-time{font-size:11px}.clock-date{font-size:6px;margin-top:8px}.status-pill{top:18px;left:12px;transform:scale(.75);transform-origin:top left}.hero-title{top:38%;width:88%}.hero-title h1{font-size:clamp(20px,7vw,38px)}.hero-title p{max-width:300px;margin:10px auto}.search-wrap{top:57%;width:88%}.search-form{height:58px;padding-left:18px}.search-button{width:46px;height:46px;flex-basis:46px}.sonic-scene{right:9%;width:290px;height:335px;opacity:.96}.ring.r1{left:8%;top:44%}.ring.r2{right:9%;top:68%}.bottom-info{font-size:10px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top-banner"><div class="welcome pixel">WELCOME BACK TO SCHOOL!</div><button class="mood" id="moodButton" aria-label="Change greeting">🥹</button></div>
+  <div class="navbar">
+    <div class="brand"><span class="brand-icon">💙</span><span>ソニック アーケード</span></div>
+    <div class="nav-label pixel">SONIC NAVIGATION</div>
+    <nav class="navlinks" aria-label="Main navigation">
+      <a href="#home">HOME</a><a href="#games">GAMES</a><a href="#about">ABOUT</a>
+    </nav>
+  </div>
+</header>
+<main id="home">
+  <div class="starfield" id="starfield" aria-hidden="true"></div>
+  <div class="speedline" style="top:29%;left:5%;animation-delay:-.8s"></div>
+  <div class="speedline" style="top:55%;left:48%;animation-delay:-1.7s"></div>
+  <div class="speedline" style="top:76%;left:14%;animation-delay:-.3s"></div>
+  <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+  <div class="status-pill" aria-label="Energy meter"></div>
+  <section class="hero-title" id="games">
+    <h1><span class="sonic-word">SONIC</span> WORLD</h1>
+    <p>Gotta go fast! Welcome to your own little arcade.</p>
+  </section>
+  <div class="search-wrap">
+    <form class="search-form" id="searchForm" role="search">
+      <input id="searchInput" type="search" placeholder="Search the web at supersonic speed..." aria-label="Search the web" autocomplete="off">
+      <button class="search-button" type="submit" aria-label="Search">⌕</button>
+    </form>
+  </div>
+  <aside class="clock-card" aria-label="Live date and time">
+    <div class="clock-time" id="clockTime">00:00:00</div>
+    <div class="clock-date" id="clockDate">LOADING DATE...</div>
+  </aside>
+  <div class="sonic-scene" role="img" aria-label="A CSS-drawn blue speed hero character inspired by classic platform games">
+    <div class="sonic-spike spike1"></div><div class="sonic-spike spike2"></div><div class="sonic-spike spike3"></div>
+    <div class="sonic-ear"></div><div class="sonic-body"></div><div class="sonic-face"></div>
+    <div class="sonic-eye"></div><div class="sonic-nose"></div><div class="sonic-smile"></div>
+    <div class="sonic-glove"></div><div class="sonic-shoe"></div>
+  </div>
+  <button class="side-arrow" id="surpriseButton" aria-label="Show a surprise">›</button>
+  <div class="bottom-info" id="about">✦ A fan-made speed-themed homepage · Built for fun</div>
+</main>
+<footer>Made with pixel vibes, glowing rings, and a little super speed.</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+const field = document.getElementById('starfield');
+const colors = ['#ff63dd','#61ff85','#ffff69','#647cff','#ff6868','#ffffff','#6be9ff'];
+const shapes = ['✦','✚','★','✧','✦','✚'];
+for (let i=0;i<34;i++){
+  const star=document.createElement('span');
+  star.className='star';
+  star.textContent=shapes[Math.floor(Math.random()*shapes.length)];
+  star.style.left=(Math.random()*96)+'%';
+  star.style.top=(Math.random()*94)+'%';
+  star.style.color=colors[Math.floor(Math.random()*colors.length)];
+  star.style.setProperty('--size',(14+Math.random()*35)+'px');
+  star.style.setProperty('--duration',(3.5+Math.random()*7)+'s');
+  star.style.setProperty('--twinkle',(1.3+Math.random()*2.8)+'s');
+  star.style.animationDelay=(-Math.random()*6)+'s';
+  field.appendChild(star);
+}
+function updateClock(){
+  const now=new Date();
+  document.getElementById('clockTime').textContent=now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+  document.getElementById('clockDate').textContent=now.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'}).toUpperCase();
+}
+updateClock();setInterval(updateClock,1000);
+const toast=document.getElementById('toast');let toastTimer;
+function showToast(message){toast.textContent=message;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),2400);}
+document.getElementById('searchForm').addEventListener('submit',e=>{
+  e.preventDefault();const q=document.getElementById('searchInput').value.trim();
+  if(!q){showToast('Type something first, speedster!');document.getElementById('searchInput').focus();return;}
+  window.open('https://duckduckgo.com/?q='+encodeURIComponent(q),'_blank','noopener');
+});
+const moods=['🥹','💙','💫','🌀','⚡','💍'];
+let moodIndex=0;
+document.getElementById('moodButton').addEventListener('click',()=>{moodIndex=(moodIndex+1)%moods.length;document.getElementById('moodButton').textContent=moods[moodIndex];showToast('Power-up equipped!');});
+document.getElementById('surpriseButton').addEventListener('click',()=>{
+  const sonic=document.querySelector('.sonic-scene');
+  sonic.animate([{transform:'translateX(0) rotate(0) scale(1)'},{transform:'translateX(-120px) rotate(-8deg) scale(1.05)'},{transform:'translateX(0) rotate(0) scale(1)'}],{duration:650,easing:'cubic-bezier(.2,.8,.2,1)'});
+  showToast('Gotta go fast! ⚡');
+});
+document.querySelectorAll('.navlinks a').forEach(a=>a.addEventListener('click',e=>{
+  const target=document.querySelector(a.getAttribute('href'));
+  if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth',block:'center'});showToast(a.textContent+' selected');}
+}));
+</script>
+</body>
+</html>
